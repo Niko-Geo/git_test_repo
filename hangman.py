@@ -111,34 +111,49 @@ def check_win(secret_word, guessed_letters):
 def main():
     print("=== Hangman ===")
 
-    secret_word = get_secret_word()
-    # Optional: add some blank lines so player 2 doesn't see the word easily
-    print("\n" * 50)
+    while True:
+        secret_word = get_secret_word()
 
-    guessed_letters, wrong_guesses, max_attempts = create_initial_state(secret_word)
+        # Optional: clear screen a bit so Player 2 can't see the word
+        print("\n" * 50)
 
-    # Game loop
-    while wrong_guesses < max_attempts:
-        print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts)
+        guessed_letters, wrong_guesses, max_attempts = create_initial_state(secret_word)
 
-        guess = get_player_guess(guessed_letters)
-
-        guessed_letters, wrong_guesses = update_state(
-            secret_word,
-            guessed_letters,
-            wrong_guesses,
-            guess
-        )
-
-        if check_win(secret_word, guessed_letters):
+        # Game loop
+        while wrong_guesses < max_attempts:
             print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts)
-            print("\n🎉 You won! The word was:", secret_word)
+
+            guess = get_player_guess(guessed_letters)
+
+            guessed_letters, wrong_guesses = update_state(
+                secret_word,
+                guessed_letters,
+                wrong_guesses,
+                guess
+            )
+
+            if check_win(secret_word, guessed_letters):
+                print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts)
+                print("\n🎉 You won! The word was:", secret_word)
+                break
+
+        # If the loop ended due to too many wrong guesses
+        if not check_win(secret_word, guessed_letters):
+            print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts)
+            print("\n💀 You lost! The word was:", secret_word)
+
+        # Play again?
+        while True:
+            again = input("\nDo you want to play again? (y/n): ").strip().lower()
+            if again in ("y", "n"):
+                break
+            else:
+                print("Please enter 'y' or 'n'.")
+
+        if again == "n":
+            print("\nThanks for playing Hangman!")
             break
 
-    # If the loop ended because of too many wrong guesses
-    if not check_win(secret_word, guessed_letters):
-        print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts)
-        print("\n💀 You lost! The word was:", secret_word)
 
 
 if __name__ == "__main__":
