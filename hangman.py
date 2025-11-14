@@ -2,11 +2,23 @@ from getpass import getpass
 
 def get_secret_word():
     """
-    Ask the user for the secret word and return it in lowercase.
-    The input is hidden from screen so player 2 cannot see it.
+    Ask the user for the secret word and ensure:
+    - it is not empty
+    - it contains only letters (a-z)
     """
-    word = getpass("Enter the secret word (player 1): ").strip()
-    return word.lower()
+    while True:
+        word = getpass("Enter the secret word (player 1): ").strip().lower()
+
+        if len(word) == 0:
+            print("The word cannot be empty. Please try again.")
+            continue
+
+        if not word.isalpha():
+            print("The word must contain letters only (a-z). Please try again.")
+            continue
+
+        return word
+
 
 
 def create_initial_state(secret_word):
