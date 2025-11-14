@@ -60,8 +60,12 @@ def print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts):
 
 def get_player_guess(guessed_letters):
     """
-    Ask the player to guess a single new letter.
-    Keep asking until the input is valid.
+    Ask the player to guess a new letter.
+    Validates:
+    - exactly one character
+    - alphabetic a-z
+    - not already guessed
+    Converts uppercase to lowercase.
     """
     while True:
         guess = input("\nGuess a letter: ").strip().lower()
@@ -74,11 +78,17 @@ def get_player_guess(guessed_letters):
             print("Please enter a letter (a-z).")
             continue
 
+        # Only allow English alphabet letters
+        if not ('a' <= guess <= 'z'):
+            print("Please use only letters a-z.")
+            continue
+
         if guess in guessed_letters:
             print("You already guessed that letter. Try another one.")
             continue
 
         return guess
+
 
 
 def update_state(secret_word, guessed_letters, wrong_guesses, guess):
