@@ -33,10 +33,7 @@ def create_initial_state(secret_word):
 
 def print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts):
     """
-    Print the current state of the game:
-    - the word with underscores for unknown letters
-    - number of wrong guesses
-    - letters already guessed
+    Print the current state of the game in a cleaner format.
     """
     display_letters = []
     for ch in secret_word:
@@ -45,17 +42,20 @@ def print_game_state(secret_word, guessed_letters, wrong_guesses, max_attempts):
         else:
             display_letters.append("_")
 
-    # Join with spaces so it looks like: b a _ a _ a
     display_word = " ".join(display_letters)
+    remaining = max_attempts - wrong_guesses
 
-    print("\nCurrent word:")
-    print(display_word)
-    print(f"Wrong guesses: {wrong_guesses}/{max_attempts}")
+    print("\n-------------------------")
+    print(f"Current word: {display_word}")
 
     if guessed_letters:
-        print("Guessed letters:", ", ".join(guessed_letters))
+        print("Guessed letters:", ", ".join(sorted(guessed_letters)))
     else:
         print("Guessed letters: (none yet)")
+
+    print(f"Attempts left: {remaining}")
+    print("-------------------------")
+
 
 
 def get_player_guess(guessed_letters):
