@@ -1,10 +1,12 @@
+from getpass import getpass
+
 def get_secret_word():
     """
     Ask the user for the secret word and return it in lowercase.
+    The input is hidden from screen so player 2 cannot see it.
     """
-    word = input("Enter the secret word (player 1): ").strip()
-    word = word.lower()
-    return word
+    word = getpass("Enter the secret word (player 1): ").strip()
+    return word.lower()
 
 
 def create_initial_state(secret_word):
